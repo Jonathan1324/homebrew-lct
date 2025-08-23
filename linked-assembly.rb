@@ -19,7 +19,9 @@ class LinkedAssembly < Formula
                       "--no-test",
                       "--no-log",
                       "--os", "macos",
-                      "--arch", arch_flag
+                      "--arch", arch_flag,
+                      out: $stdout,
+                      err: $stderr
 
     cp_r Dir["dist/*"], prefix
   end
