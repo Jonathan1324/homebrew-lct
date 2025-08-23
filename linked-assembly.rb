@@ -8,6 +8,12 @@ class LinkedAssembly < Formula
       tag:      "v0.1.0-alpha.2",
       revision: "c6851550f80c3f46eb62ad8890d889f4d3e00a91"
 
+  depends_on "rust" => :build
+  depends_on "nasm" => :build
+  depends_on "python@3.12" => :build
+  depends_on "make" => :build
+  depends_on "gcc" => :build
+
   def install
     arch_flag = if Hardware::CPU.arm?
                   "arm64"
