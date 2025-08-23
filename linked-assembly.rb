@@ -12,13 +12,15 @@ class LinkedAssembly < Formula
       url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-macos-x86_64.tar.gz"
       sha256 "675a7b286d007cc3c3df714cde7d8a05eb2f0e0941c5c5f9e4466f6b3576dd66"
     end
-  elseif OS.linux?
-    if Hardware::CPU.arm?
-      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-arm64.tar.gz"
-      sha256 "006a032f1b12a4c366e3f3d1cf8b329630e39919c33072302fdec32737ea3f9d"
-    else
-      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-x86_64.tar.gz"
-      sha256 "d8700e384e436bb452e6076b640b5e2477a906941ed5ed13632dcceccf782305"
+  else
+    if OS.linux?
+      if Hardware::CPU.arm?
+        url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-arm64.tar.gz"
+        sha256 "006a032f1b12a4c366e3f3d1cf8b329630e39919c33072302fdec32737ea3f9d"
+      else
+        url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-x86_64.tar.gz"
+        sha256 "d8700e384e436bb452e6076b640b5e2477a906941ed5ed13632dcceccf782305"
+      end
     end
   end
 
