@@ -6,7 +6,7 @@ class LinkedAssembly < Formula
 
   url "https://github.com/Jonathan1324/linked-assembly.git",
       tag:      "v0.1.0-alpha.2",
-      revision: "PUT_ACTUAL_COMMIT_HASH_HERE"
+      revision: "c6851550f80c3f46eb62ad8890d889f4d3e00a91"
 
   def install
     arch_flag = if Hardware::CPU.arm?
