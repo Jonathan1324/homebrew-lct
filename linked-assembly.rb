@@ -19,8 +19,7 @@ class LinkedAssembly < Formula
                       "--no-test",
                       "--no-log",
                       "--os", "macos",
-                      "--arch", arch_flag,
-                      "--verbose"
+                      "--arch", arch_flag
 
     cp_r Dir["dist/*"], prefix
   end
