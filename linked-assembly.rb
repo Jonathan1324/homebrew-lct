@@ -4,33 +4,54 @@ class LinkedAssembly < Formula
   license "BSD-3-Clause"
   version "0.1.0-alpha.2"
 
-  url "https://github.com/Jonathan1324/linked-assembly.git",
-      tag:      "v0.1.0-alpha.2",
-      revision: "c6851550f80c3f46eb62ad8890d889f4d3e00a91"
+  stable do
+    # Binary-URL abhängig von Architektur
+    if Hardware::CPU.arm?
+      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-macos-arm64.tar.gz"
+      sha256 "c86ca5b4793c26296f81f5acb309b48ed0ea40c394928f5e92174440a66f143e"
+    else
+      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-macos-x86_64.tar.gz"
+      sha256 "675a7b286d007cc3c3df714cde7d8a05eb2f0e0941c5c5f9e4466f6b3576dd66"
+    end
 
-  depends_on "rust" => :build
-  depends_on "nasm" => :build
-  depends_on "python@3.12" => :build
-  depends_on "make" => :build
-  depends_on "gcc" => :build
+    # Build-from-Source: Git-Tag
+    if build.from_source?
+      url "https://github.com/Jonathan1324/linked-assembly.git",
+          tag: "v#{version}"
+    end
+  end
+
+  head do
+    url "https://github.com/Jonathan1324/linked-assembly.git", branch: "main"
+  end
+
+  depends_on "rust" => :build if build.from_source?
+  depends_on "nasm" => :build if build.from_source?
+  depends_on "python@3.12" => :build if build.from_source?
+  depends_on "make" => :build if build.from_source?
+  depends_on "gcc" => :build if build.from_source?
 
   def install
-    arch_flag = if Hardware::CPU.arm?
-                  "arm64"
-                else
-                  "x86_64"
-                end
+    if build.from_source?
+      arch_flag = Hardware::CPU.arm? ? "arm64" : "x86_64"
 
-    system "cargo", "install", "cargo-download"
-    system "cargo", "install", "cargo-license"
+      system "cargo", "install", "cargo-download"
+      system "cargo", "install", "cargo-license"
 
-    system "python3", "-m", "ci.ci",
-                      "--no-test",
-                      "--no-log",
-                      "--os", "macos",
-                      "--arch", arch_flag
+      system "python3", "-m", "ci.ci",
+                        "--no-test",
+                        "--no-log",
+                        "--os", "macos",
+                        "--arch", arch_flag
 
-    cp_r Dir["dist/*"], prefix
+      cp_r Dir["dist/*"], prefix
+    else
+      # Entpacke das passende Binary
+      system "tar", "-xzf", cached_download, "-C", prefix
+
+      # Quarantine entfernen
+      system "xattr", "-dr", "com.apple.quarantine", prefix
+    end
   end
 
   test do
