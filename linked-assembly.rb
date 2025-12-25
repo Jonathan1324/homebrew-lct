@@ -2,37 +2,34 @@ class LinkedAssembly < Formula
   desc "The linked-assembly toolchain"
   homepage "https://github.com/Jonathan1324/linked-assembly"
   license "BSD-3-Clause"
-  version "0.1.0-alpha.2"
+  version "0.1.0-alpha.4-christmas2025"
 
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-macos-arm64.tar.gz"
-      sha256 "c86ca5b4793c26296f81f5acb309b48ed0ea40c394928f5e92174440a66f143e"
+      sha256 "5989998488f51f4382465ab60d4f0aa6d67586c6233d2d93da003e09495c57cd"
     else
       url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-macos-x86_64.tar.gz"
-      sha256 "675a7b286d007cc3c3df714cde7d8a05eb2f0e0941c5c5f9e4466f6b3576dd66"
+      sha256 "6ba08ddc402340ba912f2807f87a9b1a45bcb2d2df8b212f0a50e482438801d4"
     end
-  else
-    if OS.linux?
-      if Hardware::CPU.arm?
-        url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-arm64.tar.gz"
-        sha256 "006a032f1b12a4c366e3f3d1cf8b329630e39919c33072302fdec32737ea3f9d"
-      else
-        url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-x86_64.tar.gz"
-        sha256 "d8700e384e436bb452e6076b640b5e2477a906941ed5ed13632dcceccf782305"
-      end
+  elsif OS.linux?
+    if Hardware::CPU.arm?
+      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-arm64.tar.gz"
+      sha256 "b7e4a9d2669c46335f50ff5cdf36b9e05b3b5bc79ab130478ec5f841634b8aed"
+    else
+      url "https://github.com/Jonathan1324/linked-assembly/releases/download/v#{version}/linked-assembly-linux-x86_64.tar.gz"
+      sha256 "14866965cca15ca2fe1c60aea8969dcfcaa116100abf2a7bdeca5222e6fb10a1"
     end
   end
 
   def install
     system "tar", "-xzf", cached_download, "-C", prefix
-
-    system "xattr", "-dr", "com.apple.quarantine", prefix
+    system "xattr", "-dr", "com.apple.quarantine", prefix if OS.mac?
   end
 
   test do
     Dir["#{prefix}/bin/*"].each do |exe|
-        system exe, "--version"
+      system exe, "--version"
     end
   end
 end
