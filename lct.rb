@@ -1,6 +1,6 @@
-class LinkedAssembly < Formula
-  desc "The linked-assembly toolchain"
-  homepage "https://github.com/Jonathan1324/linked-assembly"
+class Lct < Formula
+  desc "LCT"
+  homepage "https://github.com/Jonathan1324/lct"
   license "BSD-3-Clause"
   version "0.1.0-alpha.4-christmas2025"
 
