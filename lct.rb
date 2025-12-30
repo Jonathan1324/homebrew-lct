@@ -13,7 +13,13 @@ class Lct < Formula
   depends_on "python@3.12" => :build
 
   def install
+    system "cargo", "install", "license"
+
     system "python3", "-m", "ci.ci", "--no-test"
+
+    libexec.install Dir["dist/*"]
+
+    bin.install Dir["#{libexec}/bin/*"]
   end
 
   test do
