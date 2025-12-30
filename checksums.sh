@@ -12,6 +12,13 @@ LOGS_DIR="logs"
 
 mkdir -p "$ARCHIVES_DIR" "$LOGS_DIR"
 
+# Source
+curl -L -o "${ARCHIVES_DIR}/${VERSION}.tar.gz" "https://github.com/Jonathan1324/lct/archive/refs/tags/${VERSION}.tar.gz" &> "${LOGS_DIR}/${VERSION}.txt"
+echo "Checksum for Source:"
+shasum -a 256 "${ARCHIVES_DIR}/${VERSION}.tar.gz"
+echo
+
+# Prebuilds
 PLATFORMS=("macos" "linux")
 ARCHS=("arm64" "x86_64")
 
